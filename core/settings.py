@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # locally
     'users',
+    'post',
     # 3rd party
     'rest_framework',
 ]
@@ -164,7 +165,13 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'debug.log',
 
-        }
+        },
+        'warning': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'warning.log',
+
+        },
     },
     'root': {
         'handlers': ['console', 'file', 'debug'],

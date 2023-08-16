@@ -5,6 +5,15 @@ import uuid
 
 # Create your models here.
 
+PENDING = 'pending'
+ACCEPTED = 'accepted'
+REJECTED = 'rejected'
+FRIEND_STATUS = (
+    (PENDING, 'pending'),
+    (ACCEPTED, 'accepted'),
+    (REJECTED, 'rejected')
+)
+
 class Profile(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -13,3 +22,31 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}-profile"
+
+
+class Friend(models.Model):
+
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_sent_request')
+    friend = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='user_accept_request')
+    status = models.CharField(max_length=100, choices=FRIEND_STATUS, default=PENDING)
+    created = models.DateTimeField(auto_now=True)
+    accepted = models.DateTimeField(blank=True, null=True)
+    rejected = models.DateTimeField(blank=True, null=True)
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'user': self.user,
+            'friend': self.friend,
+            'status': self.status
+        }
+
+    def __str__(self):
+        return f"user: {self.user.user.username} sent request to {self.friend.user.username}"
+
+    def to_dict(self):
+        return {
+            'user': self.user.username,
+            'friend' : self.friend.username,
+            'status': self.status
+        }
