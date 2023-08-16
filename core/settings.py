@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # localy
-    # 3rd patrty
+    # locally
+    'users',
+    # 3rd party
     'rest_framework',
 ]
 
@@ -148,17 +149,6 @@ LOGGING = {
     'disable_existing_loggers': False,
     'filters': {},
     'formatters': {
-        'color': {
-            '()': 'colorlog.ColoredFormatter',
-            'format': '%(log_color)s%(levelname)-8s %(message)s',
-            'log_colors': {
-                'DEBUG':    'cyan',
-                'INFO':     'white',
-                'WARNING':  'yellow',
-                'ERROR':    'red',
-                'CRITICAL': 'bold_red',
-            },
-        }
     },
     'handlers': {
         'console': {
@@ -173,7 +163,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': BASE_DIR / 'debug.log',
-            'formatter': 'color'
+
         }
     },
     'root': {
