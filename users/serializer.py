@@ -6,7 +6,7 @@ from .models import Profile, Friend
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
-        style={'input_type':'password'},
+        style={'input_type': 'password'},
         write_only=True
     )
     email = serializers.EmailField(help_text="email should end with @gmail.com or @outlook.com")
@@ -37,8 +37,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), many=False, view_name='user-detail')
+
     class Meta:
-        model= Profile
+        model = Profile
         fields = ['url', 'id', 'user', 'image', 'bio']
 
 
@@ -47,8 +48,9 @@ class FriendSerializer(serializers.ModelSerializer):
         user = validated_data['user']
         friend = validated_data['friend']
         if user == friend:
-            raise serializers.ValidationError({"detail":"You can't send request to your self"})
+            raise serializers.ValidationError({"detail": "You can't send request to your self"})
         return Friend.objects.create(**validated_data)
+
     class Meta:
         model = Friend
         fields = ['url', 'id', 'user', 'friend', 'status', 'created', 'rejected', 'accepted']
@@ -56,8 +58,10 @@ class FriendSerializer(serializers.ModelSerializer):
 
 
 class FriendListSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    # TODO: reformat user and friend fields to show link
+    user = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=True, view_name='prfile-detail')
     friend = serializers.ReadOnlyField(source='friend.username')
+
     class Meta:
         model = Friend
         fields = ['url', 'id', 'user', 'friend', 'status']

@@ -52,6 +52,16 @@ class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
     serializer_class = FriendSerializer
 
+    def get_queryset(self):
+        """
+        Override queryset to just show friend bellow to user
+        """
+        queryset = super(FriendViewSet, self).get_queryset()
+        if not self.request.user.is_anonymous:
+            profile = Profile.objects.get(user=self.request.user)
+            user_friend = queryset.filter(user=profile)
+            return user_friend
+
     @action(detail=True, name='All Freind Request')
     def get_all_friend_requests(self, request):
         friend_requests = Friend.objects.filter(

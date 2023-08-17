@@ -10,6 +10,6 @@ class IsOutherOnlyOrGetOrPost(permissions.BasePermission):
             return True
 
         if not request.user.is_anonymous:
-            return obj.dauthor.user == request.user
+            return obj.author.user == request.user
 
         return False
