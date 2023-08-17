@@ -14,8 +14,17 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class LikeSerializer(serializers.ModelSerializer):
-    # user = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=True, view_name='profile-detail')
-    # post = serializers.HyperlinkedRelatedField(queryset=Post.objects.all(), many=True, view_name='profile-detail')
+    user = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=False, view_name='profile-detail')
+    post = serializers.HyperlinkedRelatedField(queryset=Post.objects.all(), many=False, view_name='post-detail')
+
+    def create(self, validated_data):
+        post_id = validated_data['post']
+        user_id = validated_data['user']
+        like = Like.objects.filter(post=post_id, user=user_id)
+        print("like===", like)
+        if like:
+            raise serializers.ValidationError({'detail': 'You Have already Liked This Post'})
+        return Like.objects.create(**validated_data)
 
     class Meta:
         model = Like
