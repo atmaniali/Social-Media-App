@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 
+from users.models import Profile
 from .models import Post, Like, Comment
 from .serializer import PostSerializer, LikeSerializer, CommentSerializer
 from .permission import IsOutherOnlyOrGetOrPost
@@ -26,3 +27,13 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     # permission_classes = [IsOutherOnlyOrGetOrPost]
     serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        """
+        Overid query to just show comment bellow to user
+        """
+        instance = super(CommentViewSet, self).get_queryset()
+        if self.request.user.is_authenticated:
+            profile = Profile.objects.get(user=self.request.user)
+            comment = Comment.objects.filter(author=profile)
+            return comment
