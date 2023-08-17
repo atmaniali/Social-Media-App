@@ -32,8 +32,8 @@ class LikeSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    author = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=True, view_name='profile-detail')
-    post = serializers.HyperlinkedRelatedField(queryset=Post.objects.all(), many=True, view_name='profile-detail')
+    author = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=False, view_name='profile-detail')
+    post = serializers.HyperlinkedRelatedField(queryset=Post.objects.all(), many=False, view_name='profile-detail')
 
     class Meta:
         model = Comment
