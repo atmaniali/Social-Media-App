@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
 import logging
-
+from rest_framework import mixins
 
 from .models import Profile, Friend, ACCEPTED
 from .serializer import (UserSerializer,
@@ -14,7 +14,6 @@ from .serializer import (UserSerializer,
                          FriendListSerializer)
 from .permission import (IsUserOrGetOrPostOnly,
                          IsUserProfileOrGetOrPostOnly)
-
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +24,12 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsUserOrGetOrPostOnly]
 
 
-class ProfileViewSet(viewsets.ModelViewSet):
+class ProfileViewSet(mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin,
+                     viewsets.GenericViewSet):
+
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsUserProfileOrGetOrPostOnly]
