@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 
-from .models import Post
-from .serializer import PostSerializer
+from .models import Post, Like, Comment
+from .serializer import PostSerializer, LikeSerializer, CommentSerializer
 from .permission import IsOutherOnlyOrGetOrPost
 
 
@@ -15,3 +15,14 @@ class PostViewSet(viewsets.ModelViewSet):
     def list_likes(self):
         pass
 
+
+class LikeViewSet(viewsets.ModelViewSet):
+    queryset = Like.objects.all()
+    # permission_classes = [IsOutherOnlyOrGetOrPost]
+    serializer_class = LikeSerializer
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    # permission_classes = [IsOutherOnlyOrGetOrPost]
+    serializer_class = CommentSerializer

@@ -58,9 +58,9 @@ class FriendSerializer(serializers.ModelSerializer):
 
 
 class FriendListSerializer(serializers.ModelSerializer):
-    # TODO: reformat user and friend fields to show link
+    # DONE: reformat user and friend fields to show link
     user = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=True, view_name='prfile-detail')
-    friend = serializers.ReadOnlyField(source='friend.username')
+    friend = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=True, view_name='prfile-detail')
 
     class Meta:
         model = Friend

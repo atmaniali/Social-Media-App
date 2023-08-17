@@ -1,5 +1,4 @@
 import os
-import uuid
 
 from django.utils.deconstruct import deconstructible
 
@@ -38,8 +37,6 @@ post_video = GenerateVideoPostPath()
 class Post(models.Model):
     # id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4())
     author = models.OneToOneField('users.profile', on_delete=models.CASCADE)
-    like = models.ForeignKey('users.profile', on_delete=models.SET_NULL, blank=True, null=True,
-                             related_name='post_like')
     content = models.TextField()
     like_count = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to=post_image, blank=True, null=True)
@@ -48,6 +45,14 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.author.user.username}-post"
+
+
+class Like(models.Model):
+    user = models.ForeignKey('users.profile', on_delete=models.CASCADE, related_name='user_like')
+    post = models.ForeignKey('post.post', related_name='post_like', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.user.username} liked {self.post}-post_id"
 
 
 class Comment(models.Model):
