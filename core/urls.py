@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls import static
+from django.conf.urls.static import static
 
 from users import router as users_router
+from post import router as post_router
 
 
 auth_urlpatterns = []
@@ -11,6 +12,7 @@ auth_urlpatterns = []
 api_urlpatterns = [
     path('auth/', include(auth_urlpatterns)),
     path('users/', include(users_router.router.urls)),
+    path('posts/', include(post_router.router.urls)),
 ]
 
 if settings.DEBUG:
