@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 from users import router as users_router
 from post import router as post_router
+from chat import router as chat_router
 
 
 auth_urlpatterns = []
@@ -13,6 +14,7 @@ api_urlpatterns = [
     path('auth/', include(auth_urlpatterns)),
     path('users/', include(users_router.router.urls)),
     path('posts/', include(post_router.router.urls)),
+    path(r'chats', include(chat_router.router.urls)),
 ]
 
 if settings.DEBUG:
