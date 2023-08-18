@@ -1,9 +1,9 @@
 from rest_framework import routers
 
-from .viewsets import GroupSerializer, MessageSerializer
+from .viewsets import GroupViewSet, MessageViewSet
 
 
 router = routers.DefaultRouter()
 
-router.register(r'groups', GroupSerializer)
-router.register(r'messages', MessageSerializer)
+router.register(r'groups', GroupViewSet)
+router.register(r'messages', MessageViewSet)

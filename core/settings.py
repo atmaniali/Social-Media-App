@@ -144,6 +144,7 @@ REST_FRAMEWORK = {
         # Bassic & Session auth
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ]
 }
 
