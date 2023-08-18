@@ -13,3 +13,7 @@ class IsOutherOnlyOrGetOrPost(permissions.BasePermission):
             return obj.author.user == request.user
 
         return False
+
+
+class IsAuthorCommentOnlyOrGetOrPost(permissions.BasePermission):
+    pass

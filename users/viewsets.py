@@ -1,4 +1,6 @@
 import json
+
+from django.db.models import Q
 from django.utils import timezone
 from rest_framework import viewsets, status
 from django.contrib.auth.models import User
@@ -64,7 +66,7 @@ class FriendViewSet(viewsets.ModelViewSet):
         queryset = super(FriendViewSet, self).get_queryset()
         if not self.request.user.is_anonymous:
             profile = Profile.objects.get(user=self.request.user)
-            user_friend = queryset.filter(user=profile)
+            user_friend = queryset.filter(Q(user=profile) | Q(friend=profile))
             return user_friend
 
     @action(detail=False, methods=['get'], name='All Freinds Request')
