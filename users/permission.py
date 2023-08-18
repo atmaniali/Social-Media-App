@@ -23,3 +23,11 @@ class IsUserProfileOrGetOrPostOnly(permissions.BasePermission):
 
         if not request.user.is_anonymous:
             return obj.user == request.user
+
+
+from rest_framework.authentication import TokenAuthentication
+
+
+class CustomTokenAuthentication(TokenAuthentication):
+    def has_permission(self, request, view):
+        return True
