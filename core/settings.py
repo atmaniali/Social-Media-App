@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # locally
     'users',
     'post',
+    'chat',
     # 3rd party
     'rest_framework',
     'rest_framework.authtoken',

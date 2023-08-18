@@ -66,3 +66,4 @@ class Friend(models.Model):
             'friend': self.friend.username,
             'status': self.status
         }
+

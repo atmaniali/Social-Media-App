@@ -44,6 +44,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class FriendSerializer(serializers.ModelSerializer):
+    user = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=False, view_name='profile-detail')
+    friend = serializers.HyperlinkedRelatedField(queryset=Profile.objects.all(), many=False, view_name='profile-detail')
     def create(self, validated_data):
         user = validated_data['user']
         friend = validated_data['friend']
@@ -51,7 +53,7 @@ class FriendSerializer(serializers.ModelSerializer):
         if user == friend:
             raise serializers.ValidationError({"detail": "You can't send request to your self"})
         if friend_ds:
-            raise serializers.ValidationError({'detail': f"You can't send request to be friend with {user.user.username} you already friend with it."})
+            raise serializers.ValidationError({'detail': f"You can't send request to be friend with {friend.user.username} you already friend with it."})
         return Friend.objects.create(**validated_data)
 
     class Meta:
