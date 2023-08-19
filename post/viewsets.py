@@ -12,8 +12,7 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOutherOnlyOrGetOrPost]
     serializer_class = PostSerializer
 
-    @action(methods=['get'], detail=True)
-    def list_likes(self):
+    def get_queryset(self):
         pass
 
 
